@@ -7,9 +7,6 @@ function() {
         "../lib/validator/validator.js"
     ], function(notify, validator){
 
-        console.log(notify);
-        console.log(validator);
-
         var postUrl = '/ippit';
 
         function startLoader(){
@@ -17,11 +14,6 @@ function() {
         }
         function stopLoader(){
             $("#loader")[0].innerHTML = '';
-        }
-
-        function learnRegExp(s) {
-            var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-            return regexp.test(s);
         }
 
         $("#ippit").click(function(){
@@ -50,7 +42,11 @@ function() {
             });
 
             request.done(function(e) {
-                $("#ippit").notify("Got it.", "success");
+                if(e === 'open'){
+                    $("#ippit").notify("Port open.", "success");
+                }else if(e === 'closed'){
+                    $("#ippit").notify("Closed.", "warn");
+                }
             });
 
             request.fail(function(error, status) {

@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
+var portscanner = require('portscanner');
 
 var app = express();
 
@@ -26,12 +27,19 @@ app.get('/', function(req, res) {
 
 app.post('/ippit', function(req, res){
     console.log(req.body);
-    res.json(req.body);
-});
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    res.status(404).end();
+    try {
+        portscanner.checkPortStatus(req.body.port, req.body.ip, function (error, status) {
+            if (error === undefined || error === null) {
+                console.log("returning status of - " + status);
+                res.send(status);
+            } else {
+                console.log(error);
+                res.status(304).end();
+            }
+        });
+    }catch(e){
+        res.status(500).end();
+    }
 });
 
 app.set('port', process.env.PORT || 5000);
