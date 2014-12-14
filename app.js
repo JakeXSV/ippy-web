@@ -7,8 +7,10 @@ var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var portscanner = require('portscanner');
 var dns = require('dns');
+var cors = require('cors');
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, './public/views'));
