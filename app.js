@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var portscanner = require('portscanner');
+var dns = require('dns');
 
 var app = express();
 
@@ -25,7 +26,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname,'/public/views/index.html'));
 });
 
-app.post('/ippit', function(req, res){
+app.post('/port-check', function(req, res){
     console.log(req.body);
     try {
         portscanner.checkPortStatus(req.body.port, req.body.ip, function (error, status) {
@@ -35,6 +36,20 @@ app.post('/ippit', function(req, res){
             } else {
                 console.log(error);
                 res.status(304).end();
+            }
+        });
+    }catch(e){
+        res.status(500).end();
+    }
+});
+
+app.post('/domain-to-ip', function(req, res){
+    try {
+        dns.resolve4(req.body.domain, function (err, addresses) {
+            if (err){
+                res.status(500).end();
+            }else{
+                res.json(addresses);
             }
         });
     }catch(e){

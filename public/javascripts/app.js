@@ -7,7 +7,7 @@ function() {
         "../lib/validator/validator.js"
     ], function(notify, validator){
 
-        var postUrl = '/ippit';
+        var postUrl = '/port-check';
 
         function startLoader(){
             $("#loader")[0].innerHTML = '<div class="square" ></div><div class="square"></div><div class="square last"></div><div class="square clear"></div><div class="square"></div><div class="square last"></div><div class="square clear"></div><div class="square "></div><div class="square last"></div></div>';
