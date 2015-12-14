@@ -1,2 +1,2 @@
-[ippy-web](http://www.ippy.io/)
+[ippy-web](http://ippy.herokuapp.com)
 ========
